@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@astrojs/vercel": "^3.0.0",
-    "astro": "^2.0.1"
+    "astro": "^2.0.1",
+    "octokit": "^2.0.14"
   }
 }
