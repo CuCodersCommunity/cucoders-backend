@@ -24,15 +24,14 @@ export async function post({ request }) {
   if (errors) {
     return new Response(JSON.stringify({ error: error_message }), {
       status: 400,
-      statusText: "Ocurrio un error creando la invitacion para ese usuario.",
+      statusText: error_message,
       headers: {
         "Content-Type": "application/json",
       },
     });
   }
-  const invitation = await response.data;
 
-  return new Response(JSON.stringify(invitation), {
+  return new Response(JSON.stringify({ success: true }), {
     status: 200,
     headers: {
       "Content-Type": "application/json",
