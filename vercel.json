@@ -3,8 +3,7 @@
     {
       "source": "/api/(.*)",
       "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "http://localhost:3000" },
-        { "key": "Access-Control-Allow-Origin", "value": "https://cucoderscommunity.github.io/" }
+        { "key": "Access-Control-Allow-Origin", "value": "http://localhost:3000, https://cucoderscommunity.github.io/" },
       ]
     }
   ]
