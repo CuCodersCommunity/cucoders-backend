@@ -18,7 +18,7 @@ export async function post({ request }) {
     });
 
   if (errors) {
-    return new Response(null, {
+    return new Response(JSON.stringify({ errors: errors }), {
       status: 400,
       statusText: "Ocurrio un error creando la invitacion para ese usuario.",
       headers: {
