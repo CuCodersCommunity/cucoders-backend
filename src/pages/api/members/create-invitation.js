@@ -3,6 +3,7 @@ import { Octokit } from "octokit";
 export async function post({ request }) {
   const data = await request.json();
   var errors = false;
+  var error_message = "Algo salio mal, por favor vuelve a intentarlo.";
   const octokit = new Octokit({
     auth: import.meta.env.GITHUB_TOKEN,
   });
@@ -14,11 +15,14 @@ export async function post({ request }) {
       role: "direct_member",
     })
     .catch((e) => {
+      if (e.status == 422) {
+        error_message = "Un usuario con esta dirección de correo electrónico ya forma parte de la comunidad.";
+      }
       errors = true;
     });
 
   if (errors) {
-    return new Response(JSON.stringify({ errors: errors }), {
+    return new Response(JSON.stringify({ error: error_message }), {
       status: 400,
       statusText: "Ocurrio un error creando la invitacion para ese usuario.",
       headers: {
