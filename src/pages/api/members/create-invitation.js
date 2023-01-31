@@ -16,7 +16,7 @@ export async function post({ request }) {
     })
     .catch((e) => {
       if (e.status == 422) {
-        error_message = "Tu usuario ya forma parte de la comunidad. Para terminar el proceso de registro actualiza tu perfil.";
+        error_message = "Tu usuario ya es miembro de la comunidad. Para terminar el proceso de registro actualiza tu perfil.";
       }
       errors = true;
     });
