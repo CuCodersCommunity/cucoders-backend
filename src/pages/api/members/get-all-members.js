@@ -7,6 +7,7 @@ export async function get() {
 
   const response = await octokit.request("GET /orgs/cucoderscommunity/members{?per_page,page}", {
     org: "ORG",
+    per_page: 100
   });
   const members = await response.data;
 
