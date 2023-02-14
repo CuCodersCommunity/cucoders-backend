@@ -5,13 +5,22 @@ export async function get() {
     auth: import.meta.env.GITHUB_TOKEN,
   });
 
-  const response = await octokit.request("GET /orgs/cucoderscommunity/public_members{?per_page,page}", {
-    org: "ORG",
-    per_page: 100
-  });
-  const members = await response.data;
+  const pageSize = 100;
+  let page = 1;
+  let allMembers = [];
+  let response = null;
 
-  return new Response(JSON.stringify(members), {
+  do {
+    response = await octokit.request("GET /orgs/cucoderscommunity/public_members{?per_page,page}", {
+      org: "ORG",
+      per_page: pageSize,
+      page: page,
+    });
+    allMembers = await allMembers.concat(response.data);
+    page++;
+  } while (response.data.length == pageSize);
+
+  return new Response(JSON.stringify(allMembers), {
     status: 200,
     headers: {
       "Content-Type": "application/json",
