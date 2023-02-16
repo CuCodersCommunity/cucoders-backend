@@ -20,8 +20,6 @@ export async function get() {
     page++;
   } while (response.data.length == pageSize);
 
-  console.log(allMembers.length);
-
   return new Response(JSON.stringify(allMembers), {
     status: 200,
     headers: {
