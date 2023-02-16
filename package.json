@@ -11,8 +11,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "airtable": "^0.11.4",
     "@astrojs/vercel": "^3.0.0",
+    "airtable": "^0.11.6",
     "astro": "^2.0.1",
     "octokit": "^2.0.14"
   }
