@@ -1,5 +1,6 @@
 import { Octokit } from "octokit";
 import axios from 'axios';
+import dayjs from 'dayjs'
 
 
 export async function post({ request }) {
@@ -19,7 +20,8 @@ export async function post({ request }) {
       const messageTxt = createTelegramMessage(data);
       const botToken = import.meta.env.TELEGRAM_API_TOKEN;
       const chatId = import.meta.env.TELEGRAM_CHAT_ID;
-      const jobUrl = `https://cucoderscommunity.github.io/empleos/${data.pubDate.replace(/\//g, "-")}/${data.slug}`;
+      const dateSlug= dayjs(data.pubDate).format('YYYY-MM-DD');
+      const jobUrl = `https://cucoderscommunity.github.io/empleos/${dateSlug}/${data.slug}`;
       const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${messageTxt}&parse_mode=markdown&reply_markup={ "inline_keyboard" : [ [ { "text" : "Ir a la oferta 🔗", "url" : "${jobUrl}" } ] ] }`;
       axios.get(telegramUrl);
     });
