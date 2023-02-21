@@ -4,7 +4,7 @@ export async function post({ request }) {
   const data = await request.json();
   var base = new Airtable({ apiKey: import.meta.env.AIRTABLE_API_KEY }).base(import.meta.env.AIRTABLE_BASE_ID);
   let airtablePromise = new Promise(function (resolve, reject) {
-    base(import.meta.env.AIRTABLE_JOB_TABLE_ID  ).create(data, function (err, record) {
+    base(import.meta.env.AIRTABLE_JOB_TABLE_ID).create(data, function (err, record) {
       if (err) {
         console.log(err);
         resolve("AirtableError");
