@@ -1,4 +1,6 @@
 import { Octokit } from "octokit";
+import axios from 'axios';
+
 
 export async function post({ request }) {
   const data = await request.json();
@@ -19,7 +21,7 @@ export async function post({ request }) {
       const chatId = import.meta.env.TELEGRAM_CHAT_ID;
       const jobUrl = `https://cucoderscommunity.github.io/empleos/${data.pubDate.replace(/\//g, "-")}/${data.slug}`;
       const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${messageTxt}&parse_mode=markdown&reply_markup={ "inline_keyboard" : [ [ { "text" : "Ir a la oferta 🔗", "url" : "${jobUrl}" } ] ] }`;
-        fetch(telegramUrl);
+      axios.get(telegramUrl);
     });
 
   return new Response(JSON.stringify({ ok: true }), {
@@ -62,27 +64,4 @@ ${truncate(data.description, 250)}
 
 function truncate(str, n) {
   return str.length > n ? str.slice(0, n - 1) + "..." : str;
-}
-
-async function triggerGithubAction(token, repository, workflow) {
-  const url = `https://api.github.com/repos/${repository}/actions/workflows/${workflow}/dispatches`;
-  const body = { ref: "main" };
-
-  const response = await fetch(url, {
-    method: "POST",
-    body: JSON.stringify(body),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  const json = await response.json();
-  if (response.ok) {
-    console.log(`GitHub action "${workflow}" was successfully triggered.`);
-  } else {
-    console.error(`Failed to trigger GitHub action: ${json.message}`);
-  }
-
-  return response;
 }
