@@ -19,9 +19,7 @@ export async function post({ request }) {
       const chatId = import.meta.env.TELEGRAM_CHAT_ID;
       const jobUrl = `https://cucoderscommunity.github.io/empleos/${data.pubDate.replace(/\//g, "-")}/${data.slug}`;
       const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${messageTxt}&parse_mode=markdown&reply_markup={ "inline_keyboard" : [ [ { "text" : "Ir a la oferta 🔗", "url" : "${jobUrl}" } ] ] }`;
-      setTimeout(() => {
         fetch(telegramUrl);
-      }, 300000);
     });
 
   return new Response(JSON.stringify({ ok: true }), {
