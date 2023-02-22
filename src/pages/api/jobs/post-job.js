@@ -1,7 +1,6 @@
 import { Octokit } from "octokit";
-import axios from 'axios';
-import dayjs from 'dayjs'
-
+import axios from "axios";
+import dayjs from "dayjs";
 
 export async function post({ request }) {
   const data = await request.json();
@@ -11,16 +10,19 @@ export async function post({ request }) {
   });
   await octokit
     .request(
-      "POST https://api.github.com/repos/CuCodersCommunity/cucoderscommunity.github.io/actions/workflows/deploy.yml/dispatches",
+      "POST https://api.github.com/repos/CuCodersCommunity/cucoderscommunity.github.io/actions/workflows/deployJob.yml/dispatches",
       {
         ref: "main",
+        inputs: {
+          job_id: data.name
+        }
       }
     )
     .then(() => {
       const messageTxt = createTelegramMessage(data);
       const botToken = import.meta.env.TELEGRAM_API_TOKEN;
       const chatId = import.meta.env.TELEGRAM_CHAT_ID;
-      const dateSlug= dayjs(data.pubDate).format('YYYY-MM-DD');
+      const dateSlug = dayjs(data.pubDate).format("YYYY-MM-DD");
       const jobUrl = `https://cucoderscommunity.github.io/empleos/${dateSlug}/${data.slug}`;
       const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${messageTxt}&parse_mode=markdown&reply_markup={ "inline_keyboard" : [ [ { "text" : "Ir a la oferta 🔗", "url" : "${jobUrl}" } ] ] }`;
       axios.get(telegramUrl);
