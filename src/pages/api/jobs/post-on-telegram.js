@@ -4,7 +4,6 @@ import dayjs from "dayjs";
 
 export async function post({ request }) {
   const data = await request.json();
-  console.log("entro aqui");
   var base = new Airtable({ apiKey: import.meta.env.AIRTABLE_API_KEY }).base(import.meta.env.AIRTABLE_BASE_ID);
 
   const record = await base("Table 1").find(data.job);
@@ -17,7 +16,6 @@ export async function post({ request }) {
   const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${messageTxt}&parse_mode=markdown&reply_markup={ "inline_keyboard" : [ [ { "text" : "Ir a la oferta 🔗", "url" : "${jobUrl}" } ] ] }`;
   
   const response = await axios.get(telegramUrl);
-  console.log(response.data);
 
   return new Response(JSON.stringify(response.data), {
     status: 200,
