@@ -14,8 +14,8 @@ export async function post({ request }) {
       {
         ref: "main",
         inputs: {
-          job_id: data.name
-        }
+          job_id: data.title,
+        },
       }
     )
     .then(() => {
