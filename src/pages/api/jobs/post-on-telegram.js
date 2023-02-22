@@ -16,11 +16,10 @@ export async function post({ request }) {
   const jobUrl = `https://cucoderscommunity.github.io/empleos/${dateSlug}/${record.fields.slug}`;
   const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${messageTxt}&parse_mode=markdown&reply_markup={ "inline_keyboard" : [ [ { "text" : "Ir a la oferta 🔗", "url" : "${jobUrl}" } ] ] }`;
   
-  console.log(telegramUrl);
-  axios.get(telegramUrl);
-  console.log("request enviado");
+  const response = await axios.get(telegramUrl);
+  console.log(response.data);
 
-  return new Response(JSON.stringify({ }), {
+  return new Response(JSON.stringify(response.data), {
     status: 200,
     headers: {
       "Content-Type": "application/json",
