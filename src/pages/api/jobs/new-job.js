@@ -28,12 +28,14 @@ export async function post({ request }) {
     auth: import.meta.env.GITHUB_TOKEN,
   });
 
+  const newRecordId = await promiseResponse;
+
   await octokit.request(
     "POST https://api.github.com/repos/CuCodersCommunity/cucoderscommunity.github.io/actions/workflows/deployJob.yml/dispatches",
     {
       ref: "main",
       inputs: {
-        job_id: data.title,
+        job_id: newRecordId,
       },
     }
   );
