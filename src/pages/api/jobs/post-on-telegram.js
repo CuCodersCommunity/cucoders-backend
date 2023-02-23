@@ -12,7 +12,7 @@ export async function post({ request }) {
   const botToken = import.meta.env.TELEGRAM_API_TOKEN;
   const chatId = import.meta.env.TELEGRAM_CHAT_ID;
   const dateSlug = dayjs(record.fields.pubDate).format("YYYY-MM-DD");
-  const jobUrl = `https://cucoderscommunity.github.io/empleos/${dateSlug}/${record.fields.slug}`;
+  const jobUrl = `https://www.cucoders.dev/empleos/${dateSlug}/${record.fields.slug}`;
   const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${messageTxt}&parse_mode=markdown&reply_markup={ "inline_keyboard" : [ [ { "text" : "Ir a la oferta 🔗", "url" : "${jobUrl}" } ] ] }`;
   
   const response = await axios.get(telegramUrl);
