@@ -34,6 +34,7 @@ ${truncate(data.description, 250)}
 `;
 
   if (data.salary) messageText += `💵 ${data.salary} \n`;
+  if (data.organization) messageText += `🏢 ${data.organization} \n`;
   if (data.freelance) messageText += `🧑‍💻 Freelance \n`;
   if (data.fulltime) messageText += `🧑‍💻 Tiempo Completo \n`;
   if (data.parttime) messageText += `🧑‍💻 Tiempo Parcial \n`;
