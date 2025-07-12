@@ -6,11 +6,11 @@ export async function post({ request }) {
   const botToken = import.meta.env.TELEGRAM_API_TOKEN;
   const chatId = import.meta.env.TELEGRAM_REPORT_CHAT_ID;
   const topicId = import.meta.env.TELEGRAM_TOPIC_ID;
-  const text = encodeURIComponent(`
+  const text = `
 ${data.description}
 
 ${data.url}
-  `);
+  `;
   const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
 const response = await axios.post(telegramUrl, {
