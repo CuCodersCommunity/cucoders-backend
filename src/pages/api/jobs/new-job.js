@@ -4,8 +4,6 @@ import { supabase } from "../../../lib/supabase";
 export async function post({ request }) {
   const data = await request.json();
 
-  console.log(data);
-
   const { data: record, error } = await supabase.from("jobs").insert(data).select().single();
 
   if (error) {
