@@ -1,4 +1,5 @@
 import { supabase } from "../../../lib/supabase";
+import { Octokit } from "octokit";
 
 export async function del({ request }) {
   const url = new URL(request.url);
@@ -24,6 +25,18 @@ export async function del({ request }) {
       },
     });
   }
+
+      const octokit = new Octokit({
+        auth: import.meta.env.GITHUB_TOKEN,
+      });
+    
+      await octokit.request(
+        "POST https://api.github.com/repos/CuCodersCommunity/cucoderscommunity.github.io/actions/workflows/rebuildSite.yml/dispatches",
+        {
+          ref: "main"
+        }
+      );
+  
 
   return new Response(JSON.stringify({ ok: true }), {
     status: 200,
