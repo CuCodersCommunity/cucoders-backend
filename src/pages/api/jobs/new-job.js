@@ -32,7 +32,7 @@ export async function post({ request }) {
   //   }
   // );
 
-  return new Response(JSON.stringify({ ok: true }), {
+  return new Response(JSON.stringify({ ok: true, data: record }), {
     status: 200,
     headers: {
       "Content-Type": "application/json",
