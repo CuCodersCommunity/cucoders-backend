@@ -1,20 +1,28 @@
-import Airtable from "airtable";
+import { supabase } from "../../../lib/supabase";
 import axios from "axios";
 import dayjs from "dayjs";
 
 export async function post({ request }) {
   const data = await request.json();
-  var base = new Airtable({ apiKey: import.meta.env.AIRTABLE_API_KEY }).base(import.meta.env.AIRTABLE_BASE_ID);
 
-  const record = await base("Table 1").find(data.job);
+  const { data: record, error } = await supabase.from("jobs").select("*").eq("id", data.job).single();
 
-  const messageTxt = createTelegramMessage(await record.fields);
+  if (error) {
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
+  const messageTxt = createTelegramMessage(record);
   const botToken = import.meta.env.TELEGRAM_API_TOKEN;
   const chatId = import.meta.env.TELEGRAM_CHAT_ID;
-  const dateSlug = dayjs(record.fields.pubDate).format("YYYY-MM-DD");
-  const jobUrl = `https://www.cucoders.dev/empleos/${dateSlug}/${record.fields.slug}`;
+  const dateSlug = dayjs(record.pubDate).format("YYYY-MM-DD");
+  const jobUrl = `https://www.cucoders.dev/empleos/${dateSlug}/${record.slug}`;
   const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${messageTxt}&parse_mode=markdown&reply_markup={ "inline_keyboard" : [ [ { "text" : "Ir a la oferta 🔗", "url" : "${jobUrl}" } ] ] }`;
-  
+
   const response = await axios.get(telegramUrl);
 
   return new Response(JSON.stringify(response.data), {
@@ -59,4 +67,3 @@ ${truncate(data.description, 250)}
 function truncate(str, n) {
   return str.length > n ? str.slice(0, n - 1) + "..." : str;
 }
-

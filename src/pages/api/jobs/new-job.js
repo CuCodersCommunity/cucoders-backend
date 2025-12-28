@@ -1,44 +1,36 @@
-import Airtable from "airtable";
 import { Octokit } from "octokit";
+import { supabase } from "../../../lib/supabase";
 
 export async function post({ request }) {
   const data = await request.json();
-  var base = new Airtable({ apiKey: import.meta.env.AIRTABLE_API_KEY }).base(import.meta.env.AIRTABLE_BASE_ID);
-  let airtablePromise = new Promise(function (resolve, reject) {
-    base(import.meta.env.AIRTABLE_JOB_TABLE_ID).create(data, function (err, record) {
-      if (err) {
-        console.log(err);
-        resolve("AirtableError");
-        return;
-      }
-      resolve(record.getId());
-    });
-  });
-  const promiseResponse = await airtablePromise;
 
-  if (promiseResponse == "AirtableError")
-    return new Response(JSON.stringify({ ok: false }), {
+  console.log(data);
+
+  const { data: record, error } = await supabase.from("jobs").insert(data).select().single();
+
+  if (error) {
+    console.error(error);
+    return new Response(JSON.stringify({ ok: false, error: error.message }), {
       status: 500,
       headers: {
         "Content-Type": "application/json",
       },
     });
+  }
 
-  const octokit = new Octokit({
-    auth: import.meta.env.GITHUB_TOKEN,
-  });
+  // const octokit = new Octokit({
+  //   auth: import.meta.env.GITHUB_TOKEN,
+  // });
 
-  const newRecordId = await promiseResponse;
-
-  await octokit.request(
-    "POST https://api.github.com/repos/CuCodersCommunity/cucoderscommunity.github.io/actions/workflows/deployJob.yml/dispatches",
-    {
-      ref: "main",
-      inputs: {
-        job_id: newRecordId,
-      },
-    }
-  );
+  // await octokit.request(
+  //   "POST https://api.github.com/repos/CuCodersCommunity/cucoderscommunity.github.io/actions/workflows/deployJob.yml/dispatches",
+  //   {
+  //     ref: "main",
+  //     inputs: {
+  //       job_id: record.id.toString(),
+  //     },
+  //   }
+  // );
 
   return new Response(JSON.stringify({ ok: true }), {
     status: 200,
