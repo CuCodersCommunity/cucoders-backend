@@ -1,6 +1,6 @@
 import { Octokit } from "octokit";
 
-export async function post({ request }) {
+export async function POST({ request }) {
   const data = await request.json();
   var errors = false;
   var error_message = "Algo salio mal, por favor vuelve a intentarlo.";

@@ -1,7 +1,7 @@
 import { supabase } from "../../../lib/supabase";
 import { Octokit } from "octokit";
 
-export async function put({ request }) {
+export async function PUT({ request }) {
   const data = await request.json();
   const { id, ...updates } = data;
 

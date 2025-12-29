@@ -1,7 +1,7 @@
 import { supabase } from "../../../lib/supabase";
 import { Octokit } from "octokit";
 
-export async function del({ request }) {
+export async function DELETE({ request }) {
   const url = new URL(request.url);
   const id = url.searchParams.get("id");
 

@@ -2,7 +2,7 @@ import { supabase } from "../../../lib/supabase";
 import axios from "axios";
 import dayjs from "dayjs";
 
-export async function post({ request }) {
+export async function POST({ request }) {
   const data = await request.json();
 
   const { data: record, error } = await supabase.from("jobs").select("*").eq("id", data.job).single();

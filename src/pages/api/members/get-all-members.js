@@ -1,6 +1,6 @@
 import { Octokit } from "octokit";
 
-export async function get() {
+export async function GET() {
   const octokit = new Octokit({
     auth: import.meta.env.GITHUB_TOKEN,
   });

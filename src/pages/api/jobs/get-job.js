@@ -1,6 +1,6 @@
 import { supabase } from "../../../lib/supabase";
 
-export async function get({ request }) {
+export async function GET({ request }) {
   const url = new URL(request.url);
   const id = url.searchParams.get("id");
 

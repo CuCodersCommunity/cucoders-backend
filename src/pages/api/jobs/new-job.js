@@ -1,7 +1,7 @@
 import { Octokit } from "octokit";
 import { supabase } from "../../../lib/supabase";
 
-export async function post({ request }) {
+export async function POST({ request }) {
   const data = await request.json();
 
   const { data: record, error } = await supabase.from("jobs").insert(data).select().single();

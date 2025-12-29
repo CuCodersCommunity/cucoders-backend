@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function post({ request }) {
+export async function POST({ request }) {
   const data = await request.json();
 
   const botToken = import.meta.env.TELEGRAM_API_TOKEN;

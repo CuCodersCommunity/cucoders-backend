@@ -1,6 +1,6 @@
 import { supabase } from "../../../lib/supabase";
 
-export async function get() {
+export async function GET() {
 
   let { data, error } = await supabase
   .from('jobs')
