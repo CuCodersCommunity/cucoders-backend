@@ -2,6 +2,16 @@ import { supabase } from "../../../lib/supabase";
 import axios from "axios";
 import dayjs from "dayjs";
 
+export const OPTIONS = () =>
+  new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    },
+  });
+
 export async function POST({ request }) {
   const data = await request.json();
 
